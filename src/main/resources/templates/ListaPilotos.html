@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Pilotos</title>
+</head>
+<body>
+<h1>Lista de Pilotos</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Equipo</th>
+        <th>Acciones</th> <!-- Agrega una columna para acciones -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="piloto : ${pilotos}">
+        <td th:text="${piloto.id}"></td>
+        <td th:text="${piloto.nombre}"></td>
+        <td th:text="${piloto.equipo.nombre}"></td>
+        <td>
+            <!-- Agrega enlaces a las páginas de inserción, modificación y borrado -->
+            <a th:href="@{/pilotos/nuevo}">Nuevo</a>
+            <a th:href="@{/pilotos/editar/{id}(id=${piloto.id})}">Editar</a>
+            <a th:href="@{/pilotos/borrar/{id}(id=${piloto.id})}">Borrar</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
