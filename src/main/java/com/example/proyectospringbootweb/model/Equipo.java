@@ -1,66 +1,49 @@
 package com.example.proyectospringbootweb.model;
 
-import jakarta.persistence.*;
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "equipos")
 public class Equipo {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    @Column(name = "nombre")
-    private String nombre;
+    private String nombreEquipo;
+    private String nombrePiloto1;
+    private String nombrePiloto2;
 
-    @Column(name = "anio_fundacion")
-    private int anioFundacion;
-
-    @Column(name = "numero_titulos")
-    private int numeroTitulos;
-
-    // Constructor vacío
-    public Equipo() {
-    }
-
-    // Constructor con parámetros
-    public Equipo(String nombre, int anioFundacion, int numeroTitulos) {
-        this.nombre = nombre;
-        this.anioFundacion = anioFundacion;
-        this.numeroTitulos = numeroTitulos;
-    }
-
-    // Getters y setters
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreEquipo() {
+        return nombreEquipo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreEquipo(String nombreEquipo) {
+        this.nombreEquipo = nombreEquipo;
     }
 
-    public int getAnioFundacion() {
-        return anioFundacion;
+    public String getNombrePiloto1() {
+        return nombrePiloto1;
     }
 
-    public void setAnioFundacion(int anioFundacion) {
-        this.anioFundacion = anioFundacion;
+    public void setNombrePiloto1(String nombrePiloto1) {
+        this.nombrePiloto1 = nombrePiloto1;
     }
 
-    public int getNumeroTitulos() {
-        return numeroTitulos;
+    public String getNombrePiloto2() {
+        return nombrePiloto2;
     }
 
-    public void setNumeroTitulos(int numeroTitulos) {
-        this.numeroTitulos = numeroTitulos;
+    public void setNombrePiloto2(String nombrePiloto2) {
+        this.nombrePiloto2 = nombrePiloto2;
     }
 }

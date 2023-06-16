@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>FORMULA 1</title>
+    <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+<div class="portada">
+
+</div>
+
+<h1>FORMULA 1</h1>
+
+<table id="tablaEquipos">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Piloto</th>
+        <th>Equipo</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="equipo : ${equipos}">
+        <td th:text="${equipo.id}"></td>
+        <td th:text="${equipo.piloto}"></td>
+        <td th:text="${equipo.equipo}"></td>
+        <td>
+            <button class="editar" th:data-id="${equipo.id}">Edit</button>
+            <button class="eliminar" th:data-id="${equipo.id}">Delete</button>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<button id="btnAgregarEquipo" onclick="mostrarModalAgregarEquipo()">Agregar Equipo</button>
+
+
+<div id="modalAgregarEquipo" class="modal">
+    <div class="modal-content">
+        <span class="cerrar">&times;</span>
+        <h2>Agregar Equipo</h2>
+        <form id="formularioAgregarEquipo">
+            <label for="nombreEquipo">Nombre del Equipo:</label>
+            <input type="text" id="nombreEquipo" name="nombreEquipo" required>
+
+            <label for="nombrePiloto1">Nombre del Piloto 1:</label>
+            <input type="text" id="nombrePiloto1" name="nombrePiloto1" required>
+
+            <label for="nombrePiloto2">Nombre del Piloto 2:</label>
+            <input type="text" id="nombrePiloto2" name="nombrePiloto2" required>
+
+            <button type="button" onclick="agregarEquipo()">Agregar</button>
+        </form>
+    </div>
+</div>
+
+<div id="modalEditarEquipo" class="modal">
+    <div class="modal-content">
+        <span class="cerrar">&times;</span>
+        <h2>Editar Equipo</h2>
+        <form id="formularioEditarEquipo">
+            <label for="nombreEquipoEditar">Nombre del Equipo:</label>
+            <input type="text" id="nombreEquipoEditar" name="nombreEquipoEditar" required>
+
+            <label for="nombrePilotoEditar">Nombre del Piloto:</label>
+            <input type="text" id="nombrePilotoEditar" name="nombrePilotoEditar" required>
+
+            <button type="button" onclick="guardarCambiosEquipo()">Guardar Cambios</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+
+<script>
+    function mostrarModalAgregarEquipo() {
+        var modal = document.getElementById("modalAgregarEquipo");
+        modal.style.display = "block";
+    }
+
+    function agregarEquipo() {
+        var nombreEquipo = document.getElementById("nombreEquipo").value;
+        var nombrePiloto1 = document.getElementById("nombrePiloto1").value;
+        var nombrePiloto2 = document.getElementById("nombrePiloto2").value;
+
+        // Aquí puedes enviar los datos del nuevo equipo al servidor mediante una petición AJAX
+
+        // Una vez que se haya agregado correctamente el equipo, puedes cerrar el modal y actualizar la tabla
+        var modal = document.getElementById("modalAgregarEquipo");
+        modal.style.display = "none";
+
+        // Aquí puedes agregar las nuevas filas a la tabla con los datos del equipo agregado
+        var tableBody = document.getElementById("tablaEquipos").getElementsByTagName("tbody")[0];
+
+        var newRow = tableBody.insertRow();
+
+        var idCell = newRow.insertCell();
+        idCell.textContent = "ID"; // Reemplaza "ID" con el valor real del ID del equipo
+
+        var pilotoCell = newRow.insertCell();
+        pilotoCell.textContent = nombrePiloto1;
+
+        var equipoCell = newRow.insertCell();
+        equipoCell.textContent = nombreEquipo;
+
+        var accionesCell = newRow.insertCell();
+        accionesCell.innerHTML = '<button class="editar" onclick="editarEquipo(this)">Edit</button> ' +
+            '<button class="eliminar" onclick="eliminarEquipo(this)">Delete</button>';
+    }
+
+    function editarEquipo(button) {
+        var row = button.parentNode.parentNode;
+        var nombreEquipo = row.cells[2].textContent;
+        var nombrePiloto = row.cells[1].textContent;
+
+        var modal = document.getElementById("modalEditarEquipo");
+        var nombreEquipoEditarInput = document.getElementById("nombreEquipoEditar");
+        var nombrePilotoEditarInput = document.getElementById("nombrePilotoEditar");
+
+        nombreEquipoEditarInput.value = nombreEquipo;
+        nombrePilotoEditarInput.value = nombrePiloto;
+
+        modal.style.display = "block";
+    }
+
+    function guardarCambiosEquipo() {
+        var nombreEquipoEditar = document.getElementById("nombreEquipoEditar").value;
+        var nombrePilotoEditar = document.getElementById("nombrePilotoEditar").value;
+
+        // Aquí puedes enviar los datos editados del equipo al servidor mediante una petición AJAX
+
+        // Una vez que se hayan guardado los cambios correctamente, puedes cerrar el modal y actualizar la tabla
+        var modal = document.getElementById("modalEditarEquipo");
+        modal.style.display = "none";
+
+        // Aquí puedes actualizar los valores de las celdas en la tabla con los nuevos datos editados
+        var row = document.getElementById("tablaEquipos").rows[1]; // Reemplaza 1 con el índice correcto de la fila a actualizar
+
+        row.cells[1].textContent = nombrePilotoEditar;
+        row.cells[2].textContent = nombreEquipoEditar;
+    }
+
+    function eliminarEquipo(button) {
+        var row = button.parentNode.parentNode;
+        var tableBody = document.getElementById("tablaEquipos").getElementsByTagName("tbody")[0];
+
+        // Aquí puedes enviar una petición al servidor para eliminar el equipo correspondiente al ID de la fila
+        // y luego, una vez que se haya eliminado correctamente, puedes eliminar la fila de la tabla
+        tableBody.removeChild(row);
+    }
+
+    window.onclick = function (event) {
+        var modalAgregarEquipo = document.getElementById("modalAgregarEquipo");
+        var modalEditarEquipo = document.getElementById("modalEditarEquipo");
+
+        if (event.target == modalAgregarEquipo) {
+            modalAgregarEquipo.style.display = "none";
+        }
+
+        if (event.target == modalEditarEquipo) {
+            modalEditarEquipo.style.display = "none";
+        }
+    };
+</script>
+</body>
+</html>
